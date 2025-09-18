@@ -16,7 +16,7 @@ namespace Factory {
                 verts.Add(new Vector3(contourVector2.x, contourVector2.y, 0 + _zOffset));
             }
             
-            ProvinceData pd = new ProvinceData(color, 1, _nextProvinceId +1);
+            ProvinceData pd = new ProvinceData(color, 1, _nextProvinceId);
             ProvinceMesh pm = new ProvinceMesh(verts.ToArray(), tris);
 
             _nextProvinceId++;
