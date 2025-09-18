@@ -4,13 +4,13 @@ public class ProvinceData
 {
     public Color Color { get; private set; }
     public int Population { get; private set; }
-    public string Name { get; private set; } // optional
+    public int ID;
 
-    public ProvinceData(Color color, int population, string name)
+    public ProvinceData(Color color, int population, int id)
     {
         Color = color;
         Population = population;
-        Name = name;
+        ID = id;
     }
 
     public void IncreasePopulation(int amount)

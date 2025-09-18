@@ -26,9 +26,9 @@ public static class ProvinceManager {
         return provinceMap;
     }
 
-    private static List<Province> GenerateProvinces() {
+    private static List<GameObject> GenerateProvinces() {
         var provinceMap = GenerateProvinceMap(PROVINCE_TEXTURE);
-        var provinces = new List<Province>();
+        var provinces = new List<GameObject>();
         
 
         foreach (var key in provinceMap.Keys) {
@@ -52,8 +52,7 @@ public static class ProvinceManager {
         var provinces = GenerateProvinces();
 
         foreach (var province in provinces) {
-            GameObject provinceGameObject = province.GetGameObject();
-            provinceGameObject.transform.SetParent(provinceParent.transform);
+            province.transform.SetParent(provinceParent.transform);
         }
     }
 }

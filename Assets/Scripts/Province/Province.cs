@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
+using Unity.VisualScripting;
 
+[Serializable]
 public class Province {
     private readonly ProvinceData _provinceData;
     private readonly ProvinceMesh _provinceMesh;
@@ -15,17 +16,15 @@ public class Province {
         return _provinceData.Population;
     }
 
-    public GameObject GetGameObject() {
-        GameObject go = new GameObject($"Province-{_provinceData.Name}");
-        MeshFilter mf = go.AddComponent<MeshFilter>();
-        MeshRenderer mr = go.AddComponent<MeshRenderer>();
-        
-        Material provinceMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-        provinceMaterial.color = _provinceData.Color;
+    public ProvinceData GetProvinceData() {
+        return _provinceData;
+    }
 
-        mf.mesh = _provinceMesh.GetMesh();
-        mr.material = provinceMaterial;
-        go.tag = "PROVINCE";
-        return go;
+    public ProvinceMesh GetProvinceMesh() {
+        return _provinceMesh;
+    }
+
+    public string GetDebugSummary() {
+        return $"<color=#{_provinceData.Color.ToHexString()}>Province: {_provinceData.ID} - Population: {_provinceData.Population}</color>";
     }
 }
