@@ -29,16 +29,31 @@ namespace Factory {
         }
         
         public static GameObject GenerateGameObject(Province province) {
-            GameObject go = new GameObject($"Province-{province.GetProvinceData().ID}");
+            GameObject go = new GameObject($"Province-{province.provinceData.ID}");
             MeshFilter mf = go.AddComponent<MeshFilter>();
             MeshRenderer mr = go.AddComponent<MeshRenderer>();
             MeshCollider mc = go.AddComponent<MeshCollider>();
             ProvinceComponent provinceComponent = go.AddComponent<ProvinceComponent>();
             Material provinceMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+            
+            LineRenderer lr = go.AddComponent<LineRenderer>();
+            Vector3[] verts = province.provinceMesh.GetMesh().vertices;
+            
 
-            Mesh mesh = province.GetProvinceMesh().GetMesh();
+            Material lrMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+            lrMaterial.color = Color.black;
+            lr.material = lrMaterial;
+
+            lr.positionCount = verts.Length;
+            lr.loop = true;
+            lr.widthMultiplier = 5f;
+            lr.useWorldSpace = false;
+            lr.SetPositions(verts);
+            lr.enabled = false;
+
+            Mesh mesh = province.provinceMesh.GetMesh();
         
-            provinceMaterial.color = province.GetProvinceData().Color;
+            provinceMaterial.color = province.provinceData.Color;
             mf.mesh = mesh;
             mc.sharedMesh = mesh;
             mr.material = provinceMaterial;

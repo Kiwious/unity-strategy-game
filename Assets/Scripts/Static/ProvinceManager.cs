@@ -10,6 +10,8 @@ public static class ProvinceManager {
     private static readonly Dictionary<string, List<int>> STATE_CONFIG = Json.Load<Dictionary<string, List<int>>>("states");
     private static readonly List<Province> provinceList;
     private static readonly Dictionary<State, List<Province>> stateProvinceMap = new();
+
+    public static GameObject focusedProvince;
     
     static ProvinceManager() {
         provinceList = GenerateProvinces();
@@ -81,7 +83,7 @@ public static class ProvinceManager {
             stateGameObject.transform.SetParent(mapParentGameObject.transform);
 
             foreach (var province in assignedProvinces) {
-                GameObject provinceGameObject = province.GetGameObject();
+                GameObject provinceGameObject = province.GenerateGameObject();
                 provinceGameObject.transform.SetParent(stateGameObject.transform);
             }
         }

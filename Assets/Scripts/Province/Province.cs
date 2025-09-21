@@ -5,32 +5,24 @@ using UnityEngine;
 
 [Serializable]
 public class Province {
-    private readonly ProvinceData _provinceData;
-    private readonly ProvinceMesh _provinceMesh;
+    public ProvinceData provinceData;
+    public ProvinceMesh provinceMesh;
 
     public Province(ProvinceData provinceData, ProvinceMesh provinceMesh) {
-        _provinceData = provinceData;
-        _provinceMesh = provinceMesh;
+        this.provinceData = provinceData;
+        this.provinceMesh = provinceMesh;
     }
 
     public int IncreasePopulation(int amount) {
-        _provinceData.IncreasePopulation(amount);
-        return _provinceData.Population;
-    }
-
-    public ProvinceData GetProvinceData() {
-        return _provinceData;
-    }
-
-    public ProvinceMesh GetProvinceMesh() {
-        return _provinceMesh;
+        provinceData.IncreasePopulation(amount);
+        return provinceData.Population;
     }
 
     public string GetDebugSummary() {
-        return $"<color=#{_provinceData.Color.ToHexString()}>Province: {_provinceData.ID} - Population: {_provinceData.Population}</color>";
+        return $"<color=#{provinceData.Color.ToHexString()}>Province: {provinceData.ID} - Population: {provinceData.Population}</color>";
     }
 
-    public GameObject GetGameObject() {
+    public GameObject GenerateGameObject() {
         return ProvinceFactory.GenerateGameObject(this);
     }
 }
