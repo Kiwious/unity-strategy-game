@@ -17,5 +17,12 @@ public class ProvinceComponent : MonoBehaviour, IFocusable {
         
         ProvinceManager.focusedProvince = gameObject;
         lr.enabled = true;
+
+        // focus the parent state
+        StateComponent stateComponent = gameObject.GetComponentInParent<StateComponent>();
+
+        if (stateComponent != null) {
+            stateComponent.Focus(stateComponent.gameObject);
+        }
     }
 }
