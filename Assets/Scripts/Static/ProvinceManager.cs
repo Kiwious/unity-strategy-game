@@ -8,6 +8,8 @@ using ColorUtility = UnityEngine.ColorUtility;
 public static class ProvinceManager {
     
     private static readonly Texture2D PROVINCE_TEXTURE = Resources.Load<Texture2D>("provinces");
+    private static readonly Dictionary<string, List<int>> STATE_CONFIG = Json.Load<Dictionary<string, List<int>>>("states");
+    private static Dictionary<State, List<Province>> _stateProvinceMap;
     
     private static Dictionary<string, List<Vector2>> GenerateProvinceMap(Texture2D texture) {
         Dictionary<string, List<Vector2>> provinceMap = new();
@@ -26,9 +28,9 @@ public static class ProvinceManager {
         return provinceMap;
     }
 
-    private static List<GameObject> GenerateProvinces() {
+    private static List<Province>  GenerateProvinces() {
         var provinceMap = GenerateProvinceMap(PROVINCE_TEXTURE);
-        var provinces = new List<GameObject>();
+        var provinces = new List<Province>();
         
 
         foreach (var key in provinceMap.Keys) {
@@ -44,15 +46,26 @@ public static class ProvinceManager {
 
         return provinces;
     }
+
+    private static void GenerateStates() {
+        foreach (var state in STATE_CONFIG) {
+            Debug.Log($"{state.Key}: {string.Join(", ", state.Value)}");
+        }
+    }
     
-    public static void DisplayProvinces() {
+    private static void DisplayProvinces() {
         GameObject provinceParent = new GameObject("Provinces");
         provinceParent.tag = "PROVINCE_PARENT";
         
         var provinces = GenerateProvinces();
 
         foreach (var province in provinces) {
-            province.transform.SetParent(provinceParent.transform);
+            GameObject provinceGameObject = province.GetGameObject();
+            provinceGameObject.transform.SetParent(provinceParent.transform);
         }
+    }
+
+    public static void DisplayMap() {
+        DisplayProvinces();
     }
 }

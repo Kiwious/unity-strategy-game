@@ -6,7 +6,7 @@ public class Game : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ProvinceManager.DisplayProvinces();
+        ProvinceManager.DisplayMap();
     }
 
     // Update is called once per frame

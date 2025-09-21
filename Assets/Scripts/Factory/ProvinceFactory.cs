@@ -8,7 +8,7 @@ namespace Factory {
         private static int _nextProvinceId;
 
         
-        public static GameObject Create(List<Vector2> contour, Color color) {
+        public static Province Create(List<Vector2> contour, Color color) {
             List<Vector3> verts = new List<Vector3>();
             int[] tris = Triangulator.Triangulate(contour.ToArray());
             
@@ -22,12 +22,13 @@ namespace Factory {
             _nextProvinceId++;
             
             Province province = new Province(pd, pm);
-            GameObject provinceGameObject = GenerateGameObject(province);
+            // note: removed due to restructure of provincemanager singleton
+            // GameObject provinceGameObject = GenerateGameObject(province);
 
-            return provinceGameObject;
+            return province;
         }
         
-        private static GameObject GenerateGameObject(Province province) {
+        public static GameObject GenerateGameObject(Province province) {
             GameObject go = new GameObject($"Province-{province.GetProvinceData().ID}");
             MeshFilter mf = go.AddComponent<MeshFilter>();
             MeshRenderer mr = go.AddComponent<MeshRenderer>();

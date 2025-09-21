@@ -1,5 +1,7 @@
 ﻿using System;
+using Factory;
 using Unity.VisualScripting;
+using UnityEngine;
 
 [Serializable]
 public class Province {
@@ -26,5 +28,9 @@ public class Province {
 
     public string GetDebugSummary() {
         return $"<color=#{_provinceData.Color.ToHexString()}>Province: {_provinceData.ID} - Population: {_provinceData.Population}</color>";
+    }
+
+    public GameObject GetGameObject() {
+        return ProvinceFactory.GenerateGameObject(this);
     }
 }
