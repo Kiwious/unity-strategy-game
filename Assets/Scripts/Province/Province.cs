@@ -6,9 +6,9 @@ using UnityEngine;
 [Serializable]
 public class Province {
     public ProvinceData provinceData;
-    public ProvinceMesh provinceMesh;
+    public Mesh provinceMesh;
 
-    public Province(ProvinceData provinceData, ProvinceMesh provinceMesh) {
+    public Province(ProvinceData provinceData, Mesh provinceMesh) {
         this.provinceData = provinceData;
         this.provinceMesh = provinceMesh;
     }

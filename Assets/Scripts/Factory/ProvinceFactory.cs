@@ -17,8 +17,11 @@ namespace Factory {
             }
             
             ProvinceData pd = new ProvinceData(color, 1, _nextProvinceId);
-            ProvinceMesh pm = new ProvinceMesh(verts.ToArray(), tris);
-
+            Mesh pm = new Mesh();
+            pm.vertices = verts.ToArray();
+            pm.triangles = tris;
+            pm.RecalculateBounds();
+            pm.RecalculateNormals();
             _nextProvinceId++;
             
             Province province = new Province(pd, pm);
@@ -37,7 +40,7 @@ namespace Factory {
             Material provinceMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
             
             LineRenderer lr = go.AddComponent<LineRenderer>();
-            Vector3[] verts = province.provinceMesh.GetMesh().vertices;
+            Vector3[] verts = province.provinceMesh.vertices;
             
 
             Material lrMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
@@ -51,7 +54,7 @@ namespace Factory {
             lr.SetPositions(verts);
             lr.enabled = false;
 
-            Mesh mesh = province.provinceMesh.GetMesh();
+            Mesh mesh = province.provinceMesh;
         
             provinceMaterial.color = province.provinceData.Color;
             mf.mesh = mesh;
