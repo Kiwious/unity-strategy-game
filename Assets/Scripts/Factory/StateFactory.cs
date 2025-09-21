@@ -3,18 +3,16 @@ using UnityEngine;
 
 namespace Factory {
     public static class StateFactory {
-        private static int _nextStateId;
         
-        public static GameObject Create(List<Province> provinces) {
-            State state = new State(provinces, _nextStateId);
-            _nextStateId++;
+        public static State Create(List<Province> provinces, int id) {
+            State state = new State(provinces, id);
 
-            GameObject stateGameObject = GenerateGameObject(state);
-            return stateGameObject;
+            // stateGameObject = GenerateGameObject(state);
+            return state;
         }
 
         public static GameObject GenerateGameObject(State state) {
-            GameObject go = new GameObject();
+            GameObject go = new GameObject($"State-{state.stateId}");
 
             StateComponent sc = go.AddComponent<StateComponent>();
             sc.state = state;

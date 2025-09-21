@@ -6,10 +6,15 @@ using Unity.VisualScripting;
 using ColorUtility = UnityEngine.ColorUtility;
 
 public static class ProvinceManager {
-    
     private static readonly Texture2D PROVINCE_TEXTURE = Resources.Load<Texture2D>("provinces");
     private static readonly Dictionary<string, List<int>> STATE_CONFIG = Json.Load<Dictionary<string, List<int>>>("states");
-    private static Dictionary<State, List<Province>> _stateProvinceMap;
+    private static readonly List<Province> provinceList;
+    private static readonly Dictionary<State, List<Province>> stateProvinceMap = new();
+    
+    static ProvinceManager() {
+        provinceList = GenerateProvinces();
+        GenerateStates();
+    }
     
     private static Dictionary<string, List<Vector2>> GenerateProvinceMap(Texture2D texture) {
         Dictionary<string, List<Vector2>> provinceMap = new();
@@ -28,7 +33,7 @@ public static class ProvinceManager {
         return provinceMap;
     }
 
-    private static List<Province>  GenerateProvinces() {
+    private static List<Province> GenerateProvinces() {
         var provinceMap = GenerateProvinceMap(PROVINCE_TEXTURE);
         var provinces = new List<Province>();
         
@@ -48,24 +53,37 @@ public static class ProvinceManager {
     }
 
     private static void GenerateStates() {
-        foreach (var state in STATE_CONFIG) {
-            Debug.Log($"{state.Key}: {string.Join(", ", state.Value)}");
+        foreach (var kvp in STATE_CONFIG) {
+            string stateId = kvp.Key;
+            List<int> provinceIds = kvp.Value;
+
+            List<Province> provincesInState = new List<Province>();
+
+            foreach (int index in provinceIds) {
+                if (index >= 0 && index < provinceList.Count) {
+                    provincesInState.Add(provinceList[index]);
+                }
+            }
+            State state = StateFactory.Create(provincesInState, int.Parse(stateId));
+            stateProvinceMap[state] = provincesInState;
         }
     }
     
-    private static void DisplayProvinces() {
-        GameObject provinceParent = new GameObject("Provinces");
-        provinceParent.tag = "PROVINCE_PARENT";
-        
-        var provinces = GenerateProvinces();
-
-        foreach (var province in provinces) {
-            GameObject provinceGameObject = province.GetGameObject();
-            provinceGameObject.transform.SetParent(provinceParent.transform);
-        }
-    }
-
     public static void DisplayMap() {
-        DisplayProvinces();
+        GameObject mapParentGameObject = new GameObject("MAP");
+        
+        foreach (var kvp in stateProvinceMap) {
+            State state = kvp.Key;
+            List<Province> assignedProvinces = kvp.Value;
+
+            GameObject stateGameObject = state.GetGameObject();
+            
+            stateGameObject.transform.SetParent(mapParentGameObject.transform);
+
+            foreach (var province in assignedProvinces) {
+                GameObject provinceGameObject = province.GetGameObject();
+                provinceGameObject.transform.SetParent(stateGameObject.transform);
+            }
+        }
     }
 }
