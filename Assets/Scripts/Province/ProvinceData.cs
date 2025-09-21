@@ -18,5 +18,6 @@ public class ProvinceData
     public void IncreasePopulation(int amount)
     {
         Population += amount;
+        Debug.Log($"Increased population is province {ID} by {amount}; New Population is {Population}");
     }
 }

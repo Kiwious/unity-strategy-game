@@ -9,8 +9,8 @@ public static class ProvinceManager {
     private static readonly Texture2D PROVINCE_TEXTURE = Resources.Load<Texture2D>("provinces");
     private static readonly Dictionary<string, List<int>> STATE_CONFIG = Json.Load<Dictionary<string, List<int>>>("states");
     private static readonly List<Province> provinceList;
-    private static readonly Dictionary<State, List<Province>> stateProvinceMap = new();
-
+    
+    public static readonly Dictionary<State, List<Province>> stateProvinceMap = new();
     public static GameObject focusedProvince;
     
     static ProvinceManager() {

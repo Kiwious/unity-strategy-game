@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Factory;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -24,5 +25,12 @@ public class Province {
 
     public GameObject GenerateGameObject() {
         return ProvinceFactory.GenerateGameObject(this);
+    }
+
+    public IEnumerator IncreasePopulationRoutine() {
+        while (true) {
+            IncreasePopulation(100);
+            yield return new WaitForSeconds(5f);
+        }
     }
 }
